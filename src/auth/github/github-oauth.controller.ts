@@ -1,7 +1,7 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { User } from '../../users/user.entity';
 
-import { User } from '../../shared';
 import { JwtAuthService } from '../jwt/jwt-auth.service';
 import { GithubOauthGuard } from './github-oauth.guard';
 
@@ -22,14 +22,7 @@ export class GithubOauthController {
 	async githubAuthCallback(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
 		// Passport automatically creates a `user` object, based on the return value of our
 		// GithubOauthStrategy#validate() method, and assigns it to the Request object as `req.user`
-
 		const user = req.user as User;
-
-		// TODO delete
-		console.log(
-			`${this.githubAuthCallback.name}(): req.user = ${JSON.stringify(user, null, 4)}`,
-		);
-
 		const { accessToken } = this.jwtAuthService.login(user);
 		res.cookie('jwt', accessToken);
 		return { access_token: accessToken };

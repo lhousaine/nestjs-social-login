@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '../../users/user.entity';
 
-import { JwtPayload, User } from '../../shared';
+import { JwtPayload } from '../../shared';
 
 @Injectable()
 export class JwtAuthService {
@@ -12,7 +13,7 @@ export class JwtAuthService {
 		const payload: JwtPayload = {
 			sub: id,
 			displayName,
-			photo: photos?.[0]?.value,
+			photo: photos?.[0],
 		};
 
 		return {
